@@ -1,0 +1,594 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+%\usepackage[spanish]{babel} 
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{natbib}
+%%Defining the ``proposition'' environment
+\newtheorem{Acknowledgements}{Acknowledgements} 
+\newtheorem{Narrow down the analysis}{Narrow down the analysis}
+
+%%Sets the beamer theme "Cuerna"
+\usetheme{Cuerna} 
+
+\usecolortheme{default}
+%Available color themes: default, bluesimplex, brick, lettuce
+
+%%Insert the logo
+\logo{\includegraphics[width=1.5cm]{xh.jpg}}
+
+%%Title
+\title{Statistics of voids identified by \textsc{DIVE} in N-body simulations for different DE models}
+
+
+\author{Liu Bo-Yuan\\ %Author
+	      \texttt{liu-by13@mails.tsinghua.edu.cn}} %e-mail
+	      
+%\date{June 21, 2016} %Date or event
+
+\institute{Department of Physics, Tsinghua University, Beijing, China(PRC)} %%Institution
+
+\begin{document}
+
+\begin{frame}
+
+  \titlepage %Creates the title page
+  
+\end{frame}
+
+
+%--------------------------------------------------------------------------
+\begin{frame}
+\tableofcontents %Prints the table of contents
+\end{frame}
+%--------------------------------------------------------------------------
+
+\section{Introduction} %%A section (Optional)
+\begin{frame}
+	\frametitle{Quote}
+	\centering
+	\texttt{``
+	%Und, um es noch zum Schluss zu sagen, was ich Anfangs sagte:\\
+	...lieber will noch der Mensch das Nichts wollen, als nicht wollen.'' }\\
+	-- \textit{Zur Genealogie der Moral} von Friedrich Wilhelm Nietzsche\\
+	\ \\
+	\pause ``
+	%And it is in the end still to say what I said initially:\\
+	... man even prefers to will the nothingness than not will.''\\
+	 \ \\
+	\pause nothingness of the universe: \pause \textbf{cosmic voids}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Large scale structures of the universe}
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.75\textwidth]{LSS.jpg}
+	\caption{https://en.wikipedia.org/wiki/Observable\_universe\#Large-scale\_structure}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cosmic voids}
+  \framesubtitle{Definition and identification} %%Subtitle (optional)
+  \pause Cosmic voids are large regions in space with relatively low luminosity (mass) galaxies (haloes/dark matter) inside. 
+  %\citep{Zhao2016}.
+  \begin{itemize}
+    \pause \item[\checkmark] There are two perspectives from which voids are identified:%%
+    \pause \item Continuous density field\\
+    \pause e.g. Dark Matter (DM) density field from N-body simulations
+    \pause \item Discrete tracers\\
+    \pause e.g. Luminous Red Galaxies (LRG) from Slogan Digital Sky Survey, DM haloes
+    \pause \item[\checkmark] Voids identified with different methods are not comparable,\\
+    \pause regarding types of tracers, shapes, overlaps, and etc.    
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Cosmic voids}
+	\framesubtitle{Properties and applications}
+	\begin{itemize}
+	\pause \item Void statistics (with respect to size (radius))
+		\begin{itemize}
+		\pause \item Void probability function
+		\pause \item Number function (NF) \& accumulated number function (ANF)
+		\end{itemize}
+	\pause \item Other properties (voids \& environment, individual void)
+		\begin{itemize}
+		\pause \item Volume filling fraction
+		\pause \item Distribution in cosmic web environment
+		\pause \item Correlation function and power spectra for clustering
+		\pause \item Void density profile
+		\pause \item Morphology
+		\end{itemize}
+	\pause \item Applications
+		\begin{itemize}
+		\pause \item Constraints on cosmology parameters, \pause e.g. $\Gamma\equiv\Omega_{m}h$ and $\sigma_{8}$ \citep{Betancort2009}
+		\pause \item Measurement of BAO \citep{Liang2015}
+		\pause \item Model-degeneracy-breaker \citep{Jennings2013} 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{Method}
+\begin{frame}
+	\frametitle{The DIVE algorithm}
+	\framesubtitle{Delaunay trIangulation Void findEr}
+	\pause DIVE is a parameter-free geometric algorithm based on catalogues of discrete tracers developed by \citet{Zhao2016}.
+	\begin{itemize}
+	\pause \item[\checkmark] Basic idea: 4 points in 3-D space define a sphere (which is empty).
+	\pause \item Input: positions (3-D coordinates) of tracers in a given region
+	\pause \item Output: positions of the centres and radius of DT voids as spheres
+		\begin{itemize}
+		\pause \item \textit{All voids} \\
+		\pause which can overlap with each other
+		\pause \item \textit{Disjoint voids}\\
+		 \pause sampled from \textit{all voids} by hierarchically removing overlapping voids 
+		\end{itemize}
+	\pause \item[\checkmark] Caution: Boundary effect 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Catalogues of tracers as DM haloes}
+	\framesubtitle{Basic information of DEUSS data}
+	\pause We use the data from Dark Energy Universe Simulation Series (DEUSS) in different redshift ranges \citep{Rasera2010} to construct DM halo catalogues (in comoving space).
+	\begin{itemize}
+	\pause \item Dark Energy (DE) Models considered:
+		\begin{itemize}
+		\pause \item The $\Lambda\mathrm{CDM}$ model (Lambda)
+		\pause \item The $\mathrm{\phi CDM}$ model with Ratra-Peebles potential (R-P) 
+		\pause \item The $\mathrm{\phi CDM}$ model with supergravity potential (Sugra)
+		\end{itemize}
+	\pause \item Box length $l=2592\mathrm{Mpc}\cdot h^{-1}$
+	\pause \item Number of DM particles and spatial resolution
+		\begin{itemize}
+		\item Group 1: $1024^{3}$, $39.55\mathrm{kpc}\cdot h^{-1}$
+		\item Group 2: $2048^{3}$, $19.78\mathrm{kpc}\cdot h^{-1}$ (without Sugra)
+		\end{itemize}
+	%\pause \item[\checkmark] Note: Different models have different DM particle masses for both the two groups of simulation.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Catalogues of tracers as DM haloes}
+	\framesubtitle{Model parameters and sampling conditions}
+	\begin{itemize}
+	\pause \item Model parameters
+		\begin{itemize}
+		\pause \item $H_{0}=100h\cdot\mathrm{km\cdot s^{-1}\cdot Mpc^{-1}}$ with $h=0.72$
+		\pause \item Lambda\\
+		\{$\Omega_{M}=0.26$, $\Omega_{b}=0.04$, $\Omega_{\Lambda}=0.74$, $\sigma_{8}=0.79$, $n_{s}=0.96$\}
+	%, the mass of one DM particle for Group 1 is $1.17\times 10^{12}M_{\sun}\cdot h^{-1}$, and that for Group 2 is $1.46\times 10^{11}M_{\sun}\cdot h^{-1}$. 
+		\pause \item R-P with $\alpha=0.5$ (DE parameter)\\
+		\{$\Omega_{M}=0.23$, $\Omega_{b}=0.04$, $\Omega_{\Lambda}=0.77$, $\sigma_{8}=0.66$, $n_{s}=0.96$\}
+	%, the dark energy parameter $\alpha=0.5$, the mass of one DM particle for Group 1 is $1.04\times 10^{12}M_{\sun}\cdot h^{-1}$, and that for Group 2 is $1.29\times 10^{11}M_{\sun}\cdot h^{-1}$. 
+		\pause \item Sugra with $\alpha=1$\\
+		\{$\Omega_{M}=0.25$, $\Omega_{b}=0.04$, $\Omega_{\Lambda}=0.75$, $\sigma_{8}=0.73$, $n_{s}=0.96$\}
+	%, the dark energy parameter $\alpha=1$, and the mass of one DM particle for Group 1 is $1.13\times 10^{12}M_{\sun}\cdot h^{-1}$.
+		\end{itemize}
+	\pause \item[\checkmark] Note: These parameters of different models are chosen according to observation data of Type Ia supernovae and the cosmic microwave background.
+	%, in consideration of which the three DE models are degenerate.
+	\pause \item Sampling conditions
+		\begin{itemize}
+		\pause \item Equal tracer number density (ED) condition\\
+		\pause through lowest-mass cuts of DM haloes
+		\pause \item Equal volume (EV) condition
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+\section{Results}
+
+\begin{frame}
+	\frametitle{Void statistics for ED in Lambda and R-P}
+	\framesubtitle{NF of \textit{all voids} for ED with $-0.01\leq z\leq 0.25$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/com_1}
+\caption{L1, L2, L3, R1, R2 and R3 correspond to Lambda with $z=0$, Lambda with $z=0.11$, Lambda with $z=0.24$, R-P with $z=-0.01$, R-P with $z=0.11$, and R-P with $z=0.25$, respectively.} 
+%It is shown that the difference between the void numbers at the peaks of NFs in the two DE models exists for all the three snapshots considered here and are greater than the uncertainties.}
+\label{19}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Void statistics for ED in Lambda and R-P}
+	\framesubtitle{NF of \textit{all voids} for ED with $0.42\leq z\leq 0.99$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/com_2}
+\caption{L4, L5, L6, R4, R5 and R6 correspond to Lambda with $z=0.43$, Lambda with $z=0.66$, Lambda with $z=0.99$, R-P with $z=0.42$, R-P with $z=0.66$, and R-P with $z=0.99$, respectively. }
+\label{20}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Void statistics for ED in Lambda and R-P}
+	\framesubtitle{Difference between NFs of \textit{all voids} as $-0.01\leq z\leq 0.99$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/diff}
+\caption{The peaks and dip are shown significant enough to overcome the uncertainties and may serve as potential DE model-degeneracy-breakers from the perspective of (DT) void statistics for Lambda and R-P.}
+\label{21}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Void statistics for ED in Lambda and R-P}
+	\framesubtitle{Difference between ANFs of \textit{all voids} as $-0.01\leq z\leq 0.99$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/diff_a}
+\caption{There are one dip and one peak in the curve of difference between ANFs, which are also significant enough to overcome the uncertainties.}
+\label{23}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Evolution with respect to the redshift $z$}
+	\framesubtitle{Total number of \textit{all voids} $N_{V}(0\leq R)$ versus tracer number}
+	\pause
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/nv-nt}
+\caption{The curves of Lambda and R-P coincide with each other perfectly. Besides, a perfect linear relation is shown.}
+% which combined with Figure~\ref{25} and \ref{26} implies that some parameters in void statistics (e.g. $R_{p}$, $N_{V}(0\leq R)$) may be DE model-independent and completely determined by the tracer number density (embodied by $N$ in our case with a fixed box volume).}
+\label{28}
+\end{figure}
+\end{frame}
+
+\section{Summary and discussions} %%Another section
+\begin{frame}
+    \frametitle{Main findings}
+    %\framesubtitle{ha}
+    \begin{itemize}
+    \pause \item Under the condition of ED, statistics of \textit{all voids}/at low redshifts are better tools than those of \textit{disjoint voids}/at high redshifts to distinguish different DE models.
+    \pause \item \textbf{The differences between NFs and ANFs of \textit{all voids} for ED in Lambda and those in R-P are significant enough to overcome statistical uncertainties.}
+    \pause \item Some parameters of void statistics are likely to be DE model-independent. 
+    \pause \item There is a perfect linear relation between the total number of \textit{all voids} and the number of tracers.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{A rough interpretation}
+	\framesubtitle{From the perspective of tracer clustering}
+	\begin{itemize}
+	\pause \item \textbf{For \textit{all voids} in R-P compared with those in Lambda under the condition of ED, there are more voids of small radius and large radius, while less voids of medium radius.}
+	\pause \item Roughly speaking, we can further divide the tracers into clusters as components of the walls and filaments in LSS.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{A rough interpretation}
+	\framesubtitle{Exemplar spatial distributions of tracers and voids}
+	\begin{columns}
+	\begin{column}{0.5\textwidth}
+	\begin{figure}
+\centering
+\includegraphics[width=1.2\textwidth]{../figure/dis_L}
+\caption{Tracers: red asterisks, Voids: blue solid points}
+\label{29}
+\end{figure}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+	\begin{figure}
+\centering
+\includegraphics[width=1.2\textwidth]{../figure/dis_R}
+\caption{The clustering of tracers (and voids) for R-P is slightly more compact.}
+\label{29}
+\end{figure}
+	\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{A rough interpretation}
+	\framesubtitle{From the perspective of tracer clustering}
+	\begin{itemize}
+	\pause \item Given the condition of ED, the clusters in R-P are more compact in comparison with those in Lambda, resulting in wider separations among these clusters.
+	\pause \item A DT void of small radius tend to be associated with tracers from the same cluster, while a large DT void is more likely to be identified by tracers from different clusters.
+    \pause \item More compact clusters of tracers lead to even smaller voids of small radius ($\lesssim 10\mathrm{Mpc}\cdot h^{-1}$), and wider separations among clusters even larger voids of large radius ($\gtrsim 30\mathrm{Mpc}\cdot h^{-1}$).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Significance and limitation of our work}
+	\begin{itemize}
+	\pause \item Advantages of DT voids
+		\begin{itemize}
+		\pause \item The total number of DT voids (i.e. \textit{all voids}) is usually higher than those of other voids by one magnitude or two.
+		\pause \item We are able to calculate not only ANF but also NF of DT voids with high accuracy.
+		% while previous studies only took ANF into account.
+		\end{itemize}
+	\pause \item[\checkmark] DT voids highly overlap with each other!
+	\pause \item Disadvantages of DT voids
+		\begin{itemize}
+		\pause \item We are not able to construct a simple (one-to-one) relation between DT voids and low-density regions in LSS. 
+		%without combining the void distribution with the underlying matter field
+		 \pause \item It remains an unsettled issue how the properties of tracers (e.g. luminosity of galaxies, mass (cut) of DM haloes) affect DT void statistics.
+		 %\pause \item[\checkmark] Note: This is actually the reason why our study narrows down to ED for \textit{all voids} in consideration of future comparisons with results from observation data.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conclusions and prospects for future studies}
+	\begin{itemize}
+	\pause \item \textbf{Our results show the effectiveness of DT void statistics as a potential DE model-degeneracy-breaker.}
+	\pause \item For future studies, it is of high interest 
+	\begin{itemize}
+	\item to explore the DT void statistics by light-cone data, i.e. in (dec, ra, z) coordinates (redshift space), \\
+	\pause through which comparison between simulation and observation data can be performed, \pause and
+	\item to investigate further the geometric properties of DT voids and construct a theoretical model of DT void statistics as well as other void properties.
+	\end{itemize}
+	\end{itemize}
+	\pause
+	\centering
+	\large{Thanks for your attention.}
+	\pause
+	%\begin{Acknowledgements}
+	%I thank Zhao Cheng and Prof. Tao Charling for the \textsc{DIVE} code and their precious suggestions on data analysis as well as literature review.
+	%\end{Acknowledgements}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Comparison with SDSS DR12 data}
+	\framesubtitle{Methods}
+	\begin{itemize}
+	\pause \item Factors involved for observation data
+	\begin{itemize}
+	 \pause \item mask --> area of the sky
+	 \pause \item sampling --> tracer number density distribution with respect to the redshift
+	\end{itemize}	
+	\pause \item Operations on tracer catalogues
+	\begin{itemize}
+	\pause \item Simulation data: comoving space (light-cone-like) --> redshift space --> mask --> modification --> comoving space (box)
+	\pause \item Observation data: raw catalogue (redshift space) --> mask --> modification --> comoving space
+	\end{itemize}
+	\pause \item Operations on void catalogues\\
+	raw output (comoving space) --> redshift space --> mask --> comoving space
+	\pause \item Quantities: number function (NF), difference of number function (DNF), accumulated number function (ANF), difference of accumulated number function (DANF)
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Recent results}
+	\begin{itemize}
+	\item Modification of the tracer number density distribution with respect to the redshift
+	\end{itemize}
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/tra_num_dis_3}
+%\caption{The curves of the two DE models almost completely coincide with each other. $R_{p}$ increases as $z$ increases, where a `platform' occurs as $0.11\leq z\leq 0.25$.}
+\label{ex1}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Recent results}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/NF_0}
+\caption{The uncertainties calculated from Poisson fluctuations (i.e. $\delta N=\sqrt{N}$) are almost negligible.}
+\label{ex2}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Recent results}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/NF_0_dif}
+\caption{Here we estimate the uncertainties in the most conservative way, and they still do not affect the conclusion.}
+\label{ex3}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Recent results}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/ANF_0}
+%\caption{Here we estimate the uncertainties in the most conservative way, and they still do not affect the conclusion.}
+\label{ex4}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Recent results}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/ANF_0_dif}
+%\caption{Here we estimate the uncertainties in the most conservative way, and they still do not affect the conclusion.}
+\label{ex5}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Recent results}
+\framesubtitle{Conclusions and problems}
+\begin{itemize}
+	\pause \item Findings: \\
+	In Lambda the consistency between observation and simulation is always better than that in R-P.
+	\pause \item Expected conclusion: \\
+	Lambda is prefered from the perspective of DT void statistics.
+	\pause \item Problems
+	\begin{itemize}
+	\item consistency of galaxies and DM haloes as tracers of DT voids
+	\item sampling of tracers
+	\item evaluation of uncertainties
+	\end{itemize}	 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\bibliographystyle{mnras}
+\bibliography{research}  
+\end{frame}
+
+\section{Appendix}
+
+\begin{frame}
+	\frametitle{Evolution with respect to the redshift $z$}
+	\framesubtitle{Peak position $R_{p}$ versus the redshift $z$}
+	\pause
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/Rp-z}
+\caption{The curves of the two DE models almost completely coincide with each other. $R_{p}$ increases as $z$ increases, where a `platform' occurs as $0.11\leq z\leq 0.25$.}
+\label{25}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Evolution with respect to the redshift $z$}
+	\framesubtitle{Relative abundances versus the scale factor $a$}
+	\pause
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/ratio-a}
+\caption{\begin{scriptsize}
+ratio 1 is the ratio of the number of \textit{all voids} at the peak of NF with certain $z$ to that with $z=0$ (Lambda) or $z=-0.01$ (R-P), ratio 2 is the ratio of the total number of \textit{all voids} for certain $z$ to that for $z=0\sim -0.01$.
+\end{scriptsize}}
+%Again, the curves of the two DE models almost completely coincide with each other. And the curves of Ratio 1 and Ratio 2 are (gradually) separated as $z$ becomes larger, which implies that the shapes of curves at different redshifts are not the same, the differences among which cannot be absorbed by some scaling factors.}
+\label{26}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Evolution with respect to the redshift $z$}
+	\framesubtitle{Shape of the NF curve}
+	\pause
+	\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/rescale}
+\caption{NF at $z=z_{0}=0$ (Lambda) or $z=z_{0}=-0.01$ (R-P) and the rescaled NF at $z=0.99$ of \textit{all voids} for the two DE models. }
+%where the labels are consistent with those in Figure~\ref{19} and \ref{20}. The rescale scheme is to multiply the radius $R_{V}$ by a factor $R_{p}(z)/R_{p}(z_{0})$ and the void number $N_{V}$ by $N_{p}(z)/N_{p}(z_{0})$, where $N_{p}(z)$ is the void number at the peak of NF for certain redshift $z$. It is shown that the rescaled L6 and R6 do not coincide with L1 and R1, which further confirms that the shapes of NF curves at different redshifts are not the same.}
+\label{27}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{all voids} for ED at the snapshot $z=0\sim -0.01$}
+	\pause
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_0_ed_all.pdf}
+\caption{The peaks of NFs for Lambda and Sugra are very close to each other and slightly higher than that for R-P. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=2\mathrm{Mpc}\cdot h^{-1}$)}
+\label{1}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{all voids} for ED at the snapshot $z=0.66\sim 0.65$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_066_ed_all.pdf}
+\caption{The results are similar, however, more unreliable than those for $z=0\sim -0.01$ due to the smaller tracer number. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=2\mathrm{Mpc}\cdot h^{-1}$)}
+\label{7}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{disjoint voids} for ED at the snapshot $z=0\sim -0.01$}
+	\pause 
+	\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_0_ed_disjoint.pdf}
+\caption{NFs of \textit{disjoint voids} are not as symmetric as those of \textit{all voids}, which is a general feature. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=5\mathrm{Mpc}\cdot h^{-1}$)}
+\label{2}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{disjoint voids} for ED at the snapshot $z=0.66\sim 0.65$}
+	\pause 
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_066_ed_disjoint.pdf}
+\caption{The fluctuations indicate that the numbers of \textit{disjoint voids} are too small to do statistics for high redshifts. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=5\mathrm{Mpc}\cdot h^{-1}$)}
+\label{8}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{all voids} for EV at the snapshot $z=0\sim -0.01$}
+	\pause 
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_0_ev_all.pdf}
+\caption{Different DE models have different peak positions ($R_{p}$s) due to different tracer numbers: $R_{p}(Lambda)<R_{p}(Sugra)<R_{p}(R-P)$. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=2\mathrm{Mpc}\cdot h^{-1}$)}
+\label{3}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{NF of \textit{disjoint voids} for EV at the snapshot $z=0\sim -0.01$}
+	\pause 
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_0_ev_disjoint.pdf}
+\caption{Similar to the case of \textit{all voids}, the differences among different models are significant, and $R_{p}(Lambda)<R_{p}(Sugra)<R_{p}(R-P)$. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$, $bin=5\mathrm{Mpc}\cdot h^{-1}$)}
+\label{4}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{ANF of \textit{all voids} for EV as $z=0\sim -0.01$}
+	\pause 
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{../figure/z_0_ev_all_a.pdf}
+\caption{The curves with different tracer numbers intersect in a region $R_{V}=40\sim 45\mathrm{Mpc\cdot h^{-1}}$ rather than at a point. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$)}
+\label{5}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{ANF of \textit{disjoint voids} for EV as $z=0\sim -0.01$}
+	\pause 
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{../figure/z_0_ev_disjoint_a.pdf}
+\caption{Similar to the case of \textit{all voids}, there is an intersection region $R_{V}=45\sim 50\mathrm{Mpc\cdot h^{-1}}$. ($[R_{V}]=\mathrm{Mpc}\cdot h^{-1}$)}
+\label{6}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Trial results from Group 1 simulations}
+	\framesubtitle{Guidelines for further investigations}
+	\begin{itemize}
+	\pause\item It is more difficult to do void statistics for high-redshift snapshots, especially for \textit{disjoint voids}.
+		\begin{itemize}
+		\pause \item Many structures had not enough time to grow in earlier epochs of the universe.
+		\item The number of \textit{disjoint voids} is less than that of \textit{all voids} by one magnitude or two.
+		\end{itemize}
+	\pause \item For ED, the differences between Lambda and R-P are much more significant than those between Lambda and Sugra.
+	\pause \item For EV, differences among the three DE models are more significant, however, difficult to be related to the results from observation data.\\
+	%To construct sets of voids from observation data, we may use objects related to denser regions of the universe other than DM haloes as tracers, and therefore, it is only meaningful to compare the results from observation data with those from simulation data with the same tracer number density.
+	\end{itemize}
+	\pause
+	\begin{Narrow down the analysis} %%The ``proposition'' environment
+         Void statistics of \textit{all voids} for ED in Lambda and R-P 
+    \end{Narrow down the analysis}
+\end{frame}
+
+\end{document}
