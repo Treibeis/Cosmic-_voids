@@ -16,18 +16,25 @@
 %Available color themes: default, bluesimplex, brick, lettuce
 
 %%Insert the logo
-\logo{\includegraphics[width=1.5cm]{xh.jpg}}
+\logo{\includegraphics[width=1.2cm]{xh.jpg}}
 
 %%Title
 \title{Statistics of voids identified by \textsc{DIVE} in N-body simulations for different DE models}
 
 
-\author{Liu Bo-Yuan\\ %Author
-	      \texttt{liu-by13@mails.tsinghua.edu.cn}} %e-mail
+\author{Liu Bo-Yuan$^{1}$, Cheng Zhao$^{1,2}$, Charling Tao$^{2,3}$
+\\
+\texttt{liu-by13@mails.tsinghua.edu.cn}
+% List of institutions
+ %Author
+ } %e-mail
 	      
 %\date{June 21, 2016} %Date or event
 
-\institute{Department of Physics, Tsinghua University, Beijing, China(PRC)} %%Institution
+\institute{
+$^{1}$Department of Physics, Tsinghua University, Beijing 100084, China (PRC)\\
+$^{2}$Tsinghua Center for Astrophysics (THCA), Tsinghua University, Beijing 100084, China (PRC)\\
+$^{3}$CPPM, Universit$\acute{e}$ Aix-Marseille, CNRS/IN2P3, Case 907, 13288 Marseille Cedex 9, France} %%Institution
 
 \begin{document}
 
@@ -118,7 +125,16 @@
 	\pause DIVE is a parameter-free geometric algorithm based on catalogues of discrete tracers developed by \citet{Zhao2016}.
 	\begin{itemize}
 	\pause \item[\checkmark] Basic idea: 4 points in 3-D space define a sphere (which is empty).
+	\begin{columns}
+	\begin{column}{0.5\textwidth}
 	\pause \item Input: positions (3-D coordinates) of tracers in a given region
+	\pause \item[\checkmark] Caution: Boundary effect 
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{../figure/void.jpg}
+	\end{figure}
+	\end{column}
+	\begin{column}{0.5\textwidth}
 	\pause \item Output: positions of the centres and radius of DT voids as spheres
 		\begin{itemize}
 		\pause \item \textit{All voids} \\
@@ -126,7 +142,8 @@
 		\pause \item \textit{Disjoint voids}\\
 		 \pause sampled from \textit{all voids} by hierarchically removing overlapping voids 
 		\end{itemize}
-	\pause \item[\checkmark] Caution: Boundary effect 
+	\end{column}
+	\end{columns}
 	\end{itemize}
 \end{frame}
 
@@ -330,15 +347,16 @@
 	\end{itemize}
 	\pause
 	\centering
-	\large{Thanks for your attention.}
+	\large{Thanks for your attention.\\}
 	\pause
+	I can show you some recent results, if there is still time left...
 	%\begin{Acknowledgements}
 	%I thank Zhao Cheng and Prof. Tao Charling for the \textsc{DIVE} code and their precious suggestions on data analysis as well as literature review.
 	%\end{Acknowledgements}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Comparison with SDSS DR12 data}
+	\frametitle{Recent results: comparison with SDSS DR12 data}
 	\framesubtitle{Methods}
 	\begin{itemize}
 	\pause \item Factors involved for observation data
