@@ -147,10 +147,10 @@ def totxt(s, l, ls, t = 0, k = 0):
 # The codes above are meant for file I/O.
 
 RATIO = 0.6884*math.sin(70.0*math.pi/180.0)/4.0
-D_Z_L = retxt('d_z_L.txt', 2, 0, 0)
-H_Z_L = retxt('H_z_L.txt', 2, 0, 0)
-D_Z_R = retxt('d_z_R.txt', 2, 0, 0)
-H_Z_R = retxt('H_z_R.txt', 2, 0, 0)
+D_Z_L = retxt('/home/friede/python/d_z_L.txt', 2, 0, 0)
+H_Z_L = retxt('/home/friede/python/H_z_L.txt', 2, 0, 0)
+D_Z_R = retxt('/home/friede/python/d_z_R.txt', 2, 0, 0)
+H_Z_R = retxt('/home/friede/python/H_z_R.txt', 2, 0, 0)
 
 def generate(out = 'a1.txt', ra = [100.0,280.0], dec = [0.0,70.0], b1 = 1.0, b2 = 1.0, num = 100.0):
 	n1, n2 = int((ra[1]-ra[0])/b1)+1, int((dec[1]-dec[0])/b2)+1
@@ -178,6 +178,17 @@ def generate(out = 'a1.txt', ra = [100.0,280.0], dec = [0.0,70.0], b1 = 1.0, b2 
 def num_dis(z):
 	return (1.55-1.165*z)/10**4
 
+def sky(cata, area = [[0.0, 360.0], [0.0, 90.0]]):
+	out =  [[] for x in range(5)]
+	for i in range(len(cata[0])):
+		if (((cata[0][i]<=area[0][1])and(cata[0][i]>=area[0][0]))and((cata[1][i]<=area[1][1])and(cata[1][i]>=area[1][0]))):
+			out[0].append(cata[0][i])
+			out[1].append(cata[1][i])
+			out[2].append(cata[2][i])
+			out[3].append(cata[3][i])
+			out[4].append(cata[4][i])
+	return out
+
 def Atracer(nd = num_dis, d_z = D_Z_L, zr = [0.2,0.6], nub = 40):
 	z_bin = (zr[1]-zr[0])/nub
 	nub += 1
@@ -188,7 +199,8 @@ def Atracer(nd = num_dis, d_z = D_Z_L, zr = [0.2,0.6], nub = 40):
 	ratio = RATIO
 	volume = [ratio*(dz(edge[i+1])**3-dz(edge[i])**3)*4.0*math.pi/3.0 for i in range(nub-1)]
 	his = [int((volume[i]*density[i])) for i in range(nub-1)]
-	return [his, edge, z_cord, density]
+	bat = [[edge[i] for i in range(len(edge)-1)], [edge[i+1] for i in range(len(edge)-1)], density, his, volume]
+	return [his, edge, z_cord, density, bat]
 
 def poisson(l):
 	out = l
@@ -203,8 +215,8 @@ def poisson(l):
 		out.append(down)
 	return out
 
-def numfuc(cata, rr = [0.0, 70.0], r_bin = 1.0):
-	nub = int((rr[1]-rr[0])/r_bin)+1
+def numfuc(cata, rr = [0.0, 70.0], nub = 70):
+	nub = nub+1
 	his, edge = np.histogram(cata[3], np.linspace(rr[0], rr[1], nub))
 	r_cord = [(edge[i+1]+edge[i])/2.0 for i in range(nub-1)]
 	r_cord.reverse()
@@ -258,9 +270,41 @@ def modify(cata, ref, dm = 10, t = 0):
 				out[3].append(sub[k][1][3])
 				out[4].append(sub[k][1][4])
 	return out
+
+def batch_mod1(ref, re, s1, n, dm = 10, T = 0, d = 5, s2 = '.txt', k = 0, t = 0, fill = 0, fn = 4):
+	for i in range(n):
+		if (fill==0):
+			s3 = str(i+1)
+		else:
+			s3 = str(i+1).zfill(fn)
+		totxt('modified_'+s1+'_'+s3+s2, modify(retxt(re+s1+'_'+s3+s2, d, k, t), ref, dm, T), 0, 0, 0)
+	return 0
+
+def batch_mod2(ref, re, s1, n, dm = 10, T = 0, d = 5, s2 = '.txt', k = 0, t = 0, fill = 0, fn = 4):
+	for i in range(n):
+		if (fill==0):
+			s3 = str(i+1)
+		else:
+			s3 = str(i+1).zfill(fn)
+		totxt('modified_'+s1+'_'+s3+s2, modify(retxt(re+s1+s2, d, k, t), ref, (i+1)*dm, T), 0, 0, 0)
+	return 0
+
 			
+def rand_cata(num = 10**7, zr = [0.2, 0.6], d_z = D_Z_L, ob = (1800.0, 1800.0, 1800.0), box = (3600.0, 3600.0, 3600.0), sky = [[0.0,360.0], [-90.0,90.0]], ko = 0):
+	real = [[], [], [], [], []]
+	for i in range(num):
+		cord = [box[k]*np.random.random() for k in range(3)]
+		real[0].append(cord[0])
+		real[1].append(cord[1])
+		real[2].append(cord[2])
+		real[3].append(500)
+		real[4].append(i)
+	d = convert2(real, zr, 'rand_cata.txt', 'random', d_z, ob, box, sky)
+	d['real'] = real
+	return d
+		
 	
-def reconvert(lred, zr = [0.2, 0.6], fo = 'DR21.txt', label = 'obs', d_z = D_Z_L, H_z = H_Z_L, ob = (1800.0, 1800.0, 1800.0), box = (3600.0, 3600.0, 3600.0), sky = [[0.0,360.0], [-90.0,90.0]], ko = 0):
+def reconvert(lred, zr = [0.2, 0.6], fo = 'DR21.txt', label = 'obs', d_z = D_Z_L, ob = (1800.0, 1800.0, 1800.0), box = (3600.0, 3600.0, 3600.0), sky = [[0.0,360.0], [-90.0,90.0]], ko = 0):
 	start = time.time()
 	dz = interp1d(d_z[1],d_z[0])#,kind='cubic')
 	#zd = interp1d(d_z[0],d_z[1])#,kind='cubic')
@@ -307,7 +351,7 @@ def reconvert(lred, zr = [0.2, 0.6], fo = 'DR21.txt', label = 'obs', d_z = D_Z_L
 
 # The code below is to convert real boxes to lightcones.
 
-def convert2(lreal, zr = [0.2,0.6], fo = 'out1.txt', label = 'R-P', d_z = D_Z_L, H_z = H_Z_L, ob = (1800.0, 1800.0, 1800.0), box = (3600.0, 3600.0, 3600.0), sky = [[0.0,360.0],[0.0,90.0]], ko = 0):
+def convert2(lreal, zr = [0.2,0.6], fo = 'out1.txt', label = 'Lambda', d_z = D_Z_L, ob = (1800.0, 1800.0, 1800.0), box = (3600.0, 3600.0, 3600.0), sky = [[0.0,360.0],[0.0,90.0]], ko = 0):
 	start = time.time()
 	dz = interp1d(d_z[1],d_z[0])#,kind='cubic')
 	zd = interp1d(d_z[0],d_z[1])#,kind='cubic')
